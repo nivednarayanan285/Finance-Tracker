@@ -1,0 +1,211 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="flex-container" style="display: flex; flex-direction: column">
+  <!-- Flex container for Summary and Add New Transaction -->
+  <div
+    class="summary-and-transaction"
+    style="display: flex; margin-bottom: 20px"
+  >
+    <!-- Summary Section -->
+    <div
+      class="summary"
+      style="
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+        flex: 1;
+        margin-right: 10px;
+      "
+    >
+      <!-- Flex container for Total Income and Total Expenses -->
+      <div
+        class="summary-flex-container"
+        style="
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
+        "
+      >
+        <!-- Total Income -->
+        <div
+          class="summary-card"
+          style="
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 5px;
+            flex: 1;
+            margin-right: 10px;
+            text-align: center;
+          "
+        >
+          <h3>Total Income</h3>
+          <p>${{total_income}}</p>
+        </div>
+        <!-- Total Expenses -->
+        <div
+          class="summary-card"
+          style="
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 5px;
+            flex: 1;
+            text-align: center;
+          "
+        >
+          <h3>Total Expenses</h3>
+          <p>${{total_expense}}</p>
+        </div>
+      </div>
+      <!-- Net Balance -->
+      <div
+        class="summary-card"
+        style="
+          background-color: #f0f0f0;
+          padding: 20px;
+          border-radius: 5px;
+          text-align: center;
+        "
+      >
+        <h3>Net Balance</h3>
+        <p>${{ account.balance }}</p>
+      </div>
+    </div>
+
+    <!-- Transaction Form Section -->
+    <div
+      class="transaction-form"
+      style="
+        margin-left: 10px;
+        flex: 1;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+      "
+    >
+      <div class="container">
+        <div class="row justify-content-center">
+          <!-- Add Income Transaction Form -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">Add Income</div>
+              <div class="card-body">
+                <form method="post" action="{% url 'add_income' %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="id_date_income">Date:</label>
+                    <input
+                      type="date"
+                      id="id_date_income"
+                      name="date_income"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="id_amount_income">Amount:</label>
+                    <input
+                      type="number"
+                      id="id_amount_income"
+                      name="amount_income"
+                      class="form-control"
+                      placeholder="Amount"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <select
+                      id="id_category_income"
+                      name="category_income"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled>
+                        Select category
+                      </option>
+                      {% for category in income_categories %}
+                      <option value="{{ category.id }}">
+                        {{ category.name }}
+                      </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <textarea
+                      id="id_description_income"
+                      name="description_income"
+                      placeholder="Description"
+                      class="form-control"
+                    ></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">
+                    Add Income
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add Expense Transaction Form -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">Add Expense</div>
+              <div class="card-body">
+                <form method="post" action="{% url 'add_expense' %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="id_date_expense">Date:</label>
+                    <input
+                      type="date"
+                      id="id_date_expense"
+                      name="date_expense"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="id_amount_expense">Amount:</label>
+                    <input
+                      type="number"
+                      id="id_amount_expense"
+                      name="amount_expense"
+                      class="form-control"
+                      placeholder="Amount"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <select
+                      id="id_category_expense"
+                      name="category_expense"
+                      class="form-control"
+                    >
+                      <option value="" selected disabled>
+                        Select category
+                      </option>
+                      {% for category in expense_categories %}
+                      <option value="{{ category.id }}">
+                        {{ category.name }}
+                      </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <textarea
+                      id="id_description_expense"
+                      name="description_expense"
+                      placeholder="Description"
+                      class="form-control"
+                    ></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">
+                    Add Expense
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
